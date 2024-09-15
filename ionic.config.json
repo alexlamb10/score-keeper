@@ -1,0 +1,7 @@
+{
+  "name": "score-counter",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
