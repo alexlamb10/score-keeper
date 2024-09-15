@@ -1,5 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonButton, IonItem, IonInput } from '@ionic/angular/standalone';
 
 @Component({
@@ -7,20 +8,34 @@ import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent,
   standalone: true,
   templateUrl: './new-game.component.html',
   styleUrls: ['./new-game.component.scss'],
-  imports: [IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonInput],
+  imports: [CommonModule, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonInput, ReactiveFormsModule],
 })
+export class NewGameComponent implements OnInit {
+  playerForm = new FormGroup({
+    players: new FormArray([]),
+  });
 
-export class NewGameComponent  implements OnInit {
+  get players() {
+    return this.playerForm.get('players') as FormArray;
+  }
 
-  private activatedRoute = inject(ActivatedRoute);
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    console.log('new-game')
+    this.addPlayer(); // Initialize with one player
   }
 
   addPlayer() {
-    console.log('add player')
+    this.players.push(new FormControl(''));
   }
 
+  removePlayer(index: number) {
+    if (this.players.length > 1) {
+      this.players.removeAt(index);
+    }
+  }
+
+  submit() {
+    console.log(this.playerForm.value);
+  }
 }

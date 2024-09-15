@@ -9,7 +9,22 @@
 
 <ion-content [fullscreen]="true">
   <div id="container">
-      <ion-button size="medium" (click)="addPlayer()">Add Player</ion-button>
-      <ion-input label="Player 1" class="width" placeholder="Player Name"></ion-input>
+    <ion-button size="medium" (click)="addPlayer()">Add Player</ion-button>
+    <form [formGroup]="playerForm" (ngSubmit)="submit()">
+      <div formArrayName="players">
+        <div *ngFor="let player of players.controls; let i = index">
+          <ion-item>
+            <ion-input
+              [formControlName]="i"
+              label="Player {{ i + 1 }}"
+              class="width"
+              placeholder="Player Name"
+            ></ion-input>
+            <ion-button tabindex="-1" (click)="removePlayer(i)" *ngIf="i > 0">Remove Player</ion-button>
+          </ion-item>
+        </div>
+      </div>
+      <ion-button expand="full" type="submit">Submit</ion-button>
+    </form>
   </div>
 </ion-content>
